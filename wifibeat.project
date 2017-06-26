@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="wifibeat" Version="10.0.0" InternalType="Console">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00030001N0005Debug0000000000000001N0012Debug (tsan)0000000000000001N0007Release000000000000]]>
+    </Plugin>
+  </Plugins>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="project">
+    <VirtualDirectory Name="src">
+      <File Name="main.cpp"/>
+      <File Name="PacketTimestamp.cpp"/>
+      <VirtualDirectory Name="threads">
+        <File Name="threads/capture.cpp"/>
+        <File Name="threads/decryption.cpp"/>
+        <File Name="threads/elasticsearch.cpp"/>
+        <File Name="threads/logstash.cpp"/>
+        <File Name="threads/persistence.cpp"/>
+        <File Name="threads/hopper.cpp"/>
+        <File Name="threads/filereading.cpp"/>
+        <File Name="threads/filewriting.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="config">
+        <File Name="config/configuration.cpp"/>
+      </VirtualDirectory>
+      <File Name="ThreadWithQueue.cpp"/>
+      <File Name="ThreadWithQueue-impl-PacketTimestamp.cpp" ExcludeProjConfig=""/>
+      <File Name="threadManager.cpp"/>
+      <VirtualDirectory Name="utils">
+        <File Name="utils/file.cpp"/>
+        <File Name="utils/stringHelper.cpp"/>
+        <File Name="utils/wifi.cpp"/>
+        <File Name="utils/tins.cpp"/>
+        <File Name="utils/beat.cpp"/>
+        <File Name="utils/logger.cpp"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="include">
+      <File Name="main.h"/>
+      <File Name="PacketTimestamp.h"/>
+      <VirtualDirectory Name="threads">
+        <File Name="threads/capture.h"/>
+        <File Name="threads/decryption.h"/>
+        <File Name="threads/elasticsearch.h"/>
+        <File Name="threads/logstash.h"/>
+        <File Name="threads/persistence.h"/>
+        <File Name="threads/hopper.h"/>
+        <File Name="threads/filereading.h"/>
+        <File Name="threads/filewriting.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="config">
+        <File Name="config/configstructs.h"/>
+        <File Name="config/configuration.h"/>
+        <File Name="config/hopping.h"/>
+        <File Name="config/decryptionKeys.h"/>
+        <File Name="config/es.h"/>
+        <File Name="config/outputBase.h"/>
+      </VirtualDirectory>
+      <File Name="ThreadWithQueue.h"/>
+      <File Name="threadManager.h"/>
+      <VirtualDirectory Name="utils">
+        <File Name="utils/Locker.h"/>
+        <File Name="utils/file.h"/>
+        <File Name="utils/stringHelper.h"/>
+        <File Name="utils/wifi.h"/>
+        <File Name="utils/tins.h"/>
+        <File Name="utils/beat.h"/>
+        <File Name="utils/logger.h"/>
+      </VirtualDirectory>
+      <File Name="version.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="other">
+      <VirtualDirectory Name="manpages">
+        <File Name="manpages/wifibeat.1" ExcludeProjConfig="Debug"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="kibana">
+        <File Name="kibana/kibana.json" ExcludeProjConfig="Debug"/>
+      </VirtualDirectory>
+      <File Name="LICENSE" ExcludeProjConfig="Debug"/>
+      <File Name="README.md" ExcludeProjConfig="Debug"/>
+      <File Name="TODO" ExcludeProjConfig="Debug"/>
+      <VirtualDirectory Name="config">
+        <File Name="wifibeat.yml" ExcludeProjConfig="Debug"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-std=c++11;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value=".."/>
+        <IncludePath Value="/usr/include/libnl3"/>
+      </Compiler>
+      <Linker Options="" Required="yes">
+        <Library Value="tins"/>
+        <Library Value="yaml-cpp"/>
+        <Library Value="boost_system"/>
+        <Library Value="boost_program_options"/>
+        <Library Value="pcap"/>
+        <Library Value="pthread"/>
+        <Library Value="nl-genl-3"/>
+        <Library Value="nl-3"/>
+        <Library Value="PocoNet"/>
+        <Library Value="PocoNetSSL"/>
+        <Library Value="PocoFoundation"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="yes" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Debug (tsan)" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-std=c++11;-Wall;-fsanitize=thread" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value=".."/>
+        <IncludePath Value="/usr/include/libnl3"/>
+      </Compiler>
+      <Linker Options="-fsanitize=thread" Required="yes">
+        <Library Value="tins"/>
+        <Library Value="yaml-cpp"/>
+        <Library Value="boost_system"/>
+        <Library Value="boost_program_options"/>
+        <Library Value="pcap"/>
+        <Library Value="pthread"/>
+        <Library Value="nl-genl-3"/>
+        <Library Value="nl-3"/>
+        <Library Value="tsan"/>
+        <Library Value="PocoNet"/>
+        <Library Value="PocoNetSSL"/>
+        <Library Value="PocoFoundation"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="yes" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O3;-std=c++11;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value=".."/>
+        <IncludePath Value="/usr/include/libnl3"/>
+        <Preprocessor Value="NDEBUG"/>
+      </Compiler>
+      <Linker Options="" Required="yes">
+        <Library Value="tins"/>
+        <Library Value="yaml-cpp"/>
+        <Library Value="boost_system"/>
+        <Library Value="boost_program_options"/>
+        <Library Value="pcap"/>
+        <Library Value="pthread"/>
+        <Library Value="nl-genl-3"/>
+        <Library Value="nl-3"/>
+        <Library Value="PocoNet"/>
+        <Library Value="PocoNetSSL"/>
+        <Library Value="PocoFoundation"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Debug (tsan)"/>
+  <Dependencies Name="Release"/>
+</CodeLite_Project>

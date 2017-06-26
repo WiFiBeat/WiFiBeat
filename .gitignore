@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Codelite stuff
+Debug
+Release
+wifibeat.mk
+wifibeat.txt

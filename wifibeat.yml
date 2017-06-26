@@ -1,0 +1,121 @@
+#
+#    WiFiBeat - Parse 802.11 frames and store them in ElasticSearch
+#    Copyright (C) 2017 Thomas d'Otreppe de Bouvette 
+#                       <tdotreppe@aircrack-ng.org>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#################### Wifibeat Configuration Example #########################
+
+#============================== Network device ================================
+
+# Select the network interface to sniff the data. Format:
+# interface: channel:hopping time,channel:hopping time
+# if hopping time is not specified, a default value of 700ms is used.
+
+wifibeat.interfaces.devices:
+  wlan0: [ 1:700ms, 6:1000ms, 11:300ms ]
+  wlan1: [ 3 ]
+  wlan2: [ 4, 5 ]
+  wlan3: [ 44, 48, 137 ]
+
+#=============================== Output file =================================
+
+# Allows to export captured frames from the different interfaces to pcap files
+# Parameter from the command line has priority over this value
+
+wifibeat.output.pcap:
+  enabled: false
+  prefix: /root/wifibeat
+
+#============================== Network device ================================
+
+# Filtering can be done at capture time.
+# See http://www.tcpdump.org/manpages/pcap-filter.7.html
+
+wifibeat.interfaces.filters:
+  wlan0: type data
+  wlan1: type mgt
+  wlan2: type ctl
+  wlan3: type mgt or type data
+
+#=============================== Local file ===================================
+
+# It can also read from a file.
+# The file must be in Radiotap/IEE802.11 format. If not, it will abort
+
+wifibeat.files:
+  mypcap.pcap
+  other.pcap
+
+#=============================== Decryption ====================================
+
+# Allows to decrypt packets before parsing them and storing them in Elasticsearch
+# The 4-way handshake is required for each client that need to be decrypted due
+# to the fact that WPA uses session keys per station
+# Note: Multicast/Broadcast traffic not decrypted yet
+# WEP keys decrypt every packet
+# Decryption format: ESSID: BSSID:key
+# Note: In order to disable a decryption key, delete it. A hash sign is a valid
+#       character in an ESSID.
+
+decryption.keys:
+  mynetwork: 00:11:22:33:44:55/mynetwork_key
+  othernet: 00:AA:BB:CC:44:88/myother_key
+
+#================================ Queues =====================================
+
+# Persistent queues help avoid losing any data. Every packet will be saved on disk
+# if enabled. Default max_size is 1000 and default directory is /var/wifibeat
+# Make sure to increase the amount of open files for this process.
+
+queues.persistent:
+  enabled: true
+  # Max Size set to 0 disable it
+  max_size: 1000
+  directory: /var/wifibeat
+
+#================================ Outputs =====================================
+
+# Configure what outputs to use when sending the data collected by the beat.
+# Multiple outputs may be used.
+
+#-------------------------- Elasticsearch output ------------------------------
+output.elasticsearch:
+  enabled: true
+  # Array of hosts to connect to.
+  hosts: [ "localhost:9200" ]
+
+  # Optional protocol and basic auth credentials.
+  protocol: "http"
+  username: "elastic"
+  password: "changeme"
+
+output.elasticsearch:
+  enabled: true
+  # Array of hosts to connect to.
+  hosts: [  ]
+
+  # Optional protocol and basic auth credentials.
+  #protocol: "https"
+  username: "elastic"
+  password: "changeme"
+
+#================================ Logging =====================================
+
+# Sets log level. The default log level is info. It isn't case sensitive.
+# All logs are sent to syslog (LOG_LOCAL5).
+# Available log levels are: Debug > Info > Notice > Warning > Error > Critical > Alert
+
+#logging.level: info

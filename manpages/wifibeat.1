@@ -1,0 +1,35 @@
+.TH WIFIBEAT 1 "June 2017" "Version 0.1"
+
+.SH NAME
+WiFiBeat - Capture or read PCAP files and import 802.11 data into Elasticsearch
+.SH SYNOPSIS
+.B wifibeat
+.SH DESCRIPTION
+.BI wifibeat
+is a tool designed to do live capture on a wireless interface or read 802.11 PCAP files, parse into JSON format (in a similar way wireshark display filters are created) and send it to Elasticsearch. It can be later visualized using Kibana, or alerted on using watches or ElastAlert.
+.SH OPTIONS
+.TP
+.I -h, --help
+Display the help screen
+.TP
+.I -v, --version
+Display the version number
+.TP
+.I -c, --config <path>
+Path to the configuration file. By default it uses /etc/wifibeat.yml but another path can be specified (only once) if necessary (eg: testing).
+.TP
+.I -f, --no-daemon
+By default, it starts and goes in the background. That behavior can be disabled (stay in the foreground). In this case, logs will also be displayed in the console.
+.TP
+.I -p, --pid <path>
+Change the location of the PID file. By default, it is written to /var/run/wifibeat.pid but it can be changed if necessary (eg: testing). If --no-daemon (or -f) is specified, the PID file is not created.
+.TP
+.I -n, --no-pid
+Do not create a PID file. PID is created automatically when going into daemon mode (default behavior).
+.TP
+.I -a, --pcap-prefix <prefix>
+Export captured data (live data only, data read from a pcap file is not saved again) in PCAP files. One pcap file per network interface is created. It will be named after the prefix, followed by the interface name and the date and time with the pcap extension.
+.SH AUTHOR
+This manual page was written by Thomas d'Otreppe <tdotreppe@aircrack-ng.org> for the Debian system (but may be used by others).
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 2 or any later version published by the Free Software Foundation
+On Debian systems, the complete text of the GNU General Public License can be found in /usr/share/common-licenses/GPL.

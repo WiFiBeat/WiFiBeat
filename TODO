@@ -1,0 +1,60 @@
+Elasticsearch:
+- ongoing (high): JSON generation
+	parse 802.11ac beacon
+- Med prio: Allow unconnected ES and often test connection (retryConnect() method in elasticbeat-cpp)
+- Lowest prio: Filters at Elasticsearch/LS level based on JSON.
+
+Kibana:
+- High prio: Visualizations -> Export from Kibana + explain how to import in README.md
+
+ElastAlert:
+- Mid-High prio: Some alerts
+
+WiFi:
+- Low/Med prio: Use Hexedit to fuzz values in frame to obtain the different values (in IE mostly) to improve parsing
+- Low/Med prio: Handle WEP Shared Authentication
+- Low/med prio: Decryption -> test
+- Low: extend IE parsing in libtins.
+- Low: Capture using libpcap and then import it the different parts
+	- Dot11 (const uint8_t *buffer, uint32_t total_sz)
+	- RadioTap (const uint8_t *buffer, uint32_t total_sz)/PPI
+- Low prio: Validate channels a card can go on
+- Low prio: Add option to not store the data payload
+- Low prio: Allow to store the data payload in other formats (hex) 
+            or compress it (gzip) - wifi.data.payload.storage: 
+            default (base64, not searchable)/hex/gzipped (then base64, not searchable)
+				See the whole https://stackoverflow.com/questions/180947/base64-decode-snippet-in-c 
+				And test all of them (+ perf)
+
+General:
+- High: Make sure license is in all files
+- Med/High: Create makefile (for command line use)
+- Med/High prio: Persistence: implement
+- Low/Med: More manpages (configuration file, visualizations, etc)
+- Low/Med: Use wifibeat::utils::stringHelper::hex2string to convert data/OUI
+- Low/Med: Generate helper class for bitset (wifibeat::utils::bitset)
+	1/2/3/4 bytes into bitset in separate arguments or as integer/whatever,
+	get value from specific bits [start, length], byte[0].value, byte[1].value
+- Low/Med prio: Split tins.cpp into multiple files. 
+- Low/Med prio: Logging to log file using log4cplus
+	-> new parameter
+	-> provide logstash parser
+- Low/Med prio: Handle pcap files with space characters in them
+- Low/Med prio: Put in GitHub and integrate with TravisCI
+- Low: Provide logstash parser for syslog file for the tool
+- Low prio: Split ThreadWithQueue in 2 classes: Thread, template ThreadsWithQueue : Thread
+	-> Hopper uses Thread
+	-> Allow passthrough instead of recurring
+		-> Either optimize it where it doesn't have to run at all (not a good idea)
+		-> Do passthrough in _loop()
+- Low prio: Config files improvement:
+	- Split parsing configuration and validating it (have a function to validate it such as key length)
+		Need to move stuff from main in there.
+	- Create directory for structures
+	- Move config structs to classes and have toString in them and constructor to initialize them
+		-> will simplify config dump
+- Low prio: Draw diagram of the threads
+- Low prio: Use capabilities instead of asking for root.
+	http://man7.org/linux/man-pages/man7/capabilities.7.html
+- Lowest prio: Look into OpenMP: https://gcc.gnu.org/onlinedocs/libstdc++/manual/parallel_mode.html
+- Lowest: Have main JSON thread use workers to convert to JSON then pass the result to LS and ES
