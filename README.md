@@ -86,8 +86,8 @@ apt-get install codelite codelite-plugins
 2. Clone repositories in that newly created directory
    ```
    git clone https://github.com/WiFiBeat/WiFiBeat
-   git clone https://github.com/WiFiBeat/ElasticBeat-cpp
-   git clone https://github.com/WiFiBeat/SimpleJSON-cpp
+   git clone https://github.com/WiFiBeat/elasticbeat-cpp
+   git clone https://github.com/WiFiBeat/simplejson-cpp
    ```
 3. Add projects to workspace:
    1. Right click on the workspace in the Workspace View on the left
