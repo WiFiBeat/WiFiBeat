@@ -110,7 +110,7 @@ string wifibeat::utils::stringHelper::timespec2RFC3339string(struct timespec & t
 {
 	#define T2S_BUFFER_LEN 128
 	char * buf = new char[T2S_BUFFER_LEN]; // Should be enough
-	struct tm gm = { 0 };
+	struct tm gm = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	stringstream ss;
 
 	if (gmtime_r(&ts.tv_sec, &gm) == NULL) {

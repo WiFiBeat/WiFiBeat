@@ -104,13 +104,11 @@ void wifibeat::threads::elasticsearch::recurring()
 	}
 
 	vector <string> temp;
-	unsigned int amountElt;
 	utils::Locker l(&this->_connectionMutex);
-	
 
 	while (documents.size() > 0) {
 		// Calculate amount of elements per bulk request
-		amountElt = documents.size();
+		unsigned int amountElt = documents.size();
 		if (amountElt > this->_settings.bulkMaxSize) {
 			amountElt = this->_settings.bulkMaxSize;
 		}

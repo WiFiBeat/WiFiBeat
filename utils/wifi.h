@@ -32,7 +32,7 @@ namespace wifibeat
 		class wifi {
 			public:
 				static int channel2frequency(const unsigned int chan);
-				static bool isInterfaceValid(const string & iface, const vector<string> & ifaces = vector<string>());
+				static bool isInterfaceValid(const string & iface);
 				static vector <string> interfaces();
 				static bool setInterfaceUp(const string & iface);
 		};

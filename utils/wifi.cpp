@@ -69,7 +69,7 @@ int wifibeat::utils::wifi::channel2frequency(const unsigned int chan)
 	return (chan + 1000) * 5;
 }
 
-bool wifibeat::utils::wifi::isInterfaceValid(const string & iface, const vector<string> & ifaces)
+bool wifibeat::utils::wifi::isInterfaceValid(const string & iface)
 {
 
 	if (iface.empty()) {
@@ -77,15 +77,6 @@ bool wifibeat::utils::wifi::isInterfaceValid(const string & iface, const vector<
 	}
 
 	return 0 != if_nametoindex(iface.c_str());
-
-	/*
-	vector <string> interfaceList(ifaces);
-	if (interfaceList.size() == 0) {
-		interfaceList = utils::interfaces();
-	}
-	return std::find(interfaceList.begin(), interfaceList.end(), iface) != interfaceList.end();
-	*/
-	
 }
 
 vector <string> wifibeat::utils::wifi::interfaces()

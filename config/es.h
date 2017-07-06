@@ -49,9 +49,9 @@ struct ElasticSearchConnection : outputBeatBase{
 	map <string, string> headers;
 	string HTTPPath;
 	string proxyURL;
-	int maxRetries; // 3
-	int bulkMaxSize; // 50
-	int timeout; // 90
+	unsigned int maxRetries; // 3
+	unsigned int bulkMaxSize; // 50
+	unsigned int timeout; // 90
 	std::chrono::seconds flushInterval; // 1 sec
 	ESTemplateVersion version2x;
 	ESTemplateVersion version6x;

@@ -84,13 +84,11 @@ bool wifibeat::threads::filewriting::init_function()
 
 void wifibeat::threads::filewriting::recurring()
 {
-	PacketTimestamp * item = NULL;
-
 	// 1. Get all packets from the input queue
 	std::queue<PacketTimestamp *> items = this->getAllItemsFromInputQueue();
 
 	while (!items.empty()) {
-		item = items.front();
+		PacketTimestamp *item = items.front();
 		items.pop();
 		if (item == NULL) {
 			continue;
