@@ -24,29 +24,30 @@
 
 char * wifibeat::utils::stringHelper::hex2string(const uint8_t * data, unsigned int length, unsigned int offset, unsigned int howMany, bool useSeparator, char separator)
 {
-	if (length == 0 || length < offset + howMany ) {
-		return NULL;
-	}
+    if (length == 0 || length < offset + howMany ) {
+        return NULL;
+    }
 
-	char * ret = NULL;
-	if (useSeparator) {
-		// Separator
-		ret = (char *) calloc(1, howMany * 3);
-		for (unsigned int i = 0; i < howMany; ++i) {
-			snprintf(ret + (i *3), 2, "%02x", data[i + offset]);
-			ret[(i * 3) + 2] = separator;
-		}
-		ret[(howMany * 3) - 1] = 0;
-	} else {
-		// No separator
-		ret = (char *) calloc(1, (howMany * 2) + 1);
-		for (unsigned int i = 0; i < howMany; ++i) {
-			snprintf(ret + (i * 2), 2, "%02x", data[i + offset]);
-		}
-	}
+    char * ret = NULL;
+    if (useSeparator) {
+        // Separator
+        ret = (char *) calloc(1, howMany * 3);
+        for (unsigned int i = 0; i < howMany; ++i) {
+            snprintf(ret + (i *3), 3, "%02x", data[i + offset]);
+            ret[(i * 3) + 2] = separator;
+        }
+        ret[(howMany * 3) - 1] = 0;
+    } else {
+        // No separator
+        ret = (char *) calloc(1, (howMany * 2) + 1);
+        for (unsigned int i = 0; i < howMany; ++i) {
+            snprintf(ret + (i * 2), 3, "%02x", data[i + offset]);
+        }
+    }
 
-	return ret;
+    return ret;
 }
+
 
 string wifibeat::utils::stringHelper::mac2str(Dot11::address_type mac)
 {
@@ -91,14 +92,17 @@ void wifibeat::utils::stringHelper::to_lower(std::string & str)
 // trim from start (in place)
 void wifibeat::utils::stringHelper::ltrim(std::string &s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-            std::not1(std::ptr_fun<int, int>(std::isspace))));
+            [](unsigned char ch){ return !std::isspace(ch); }));
 }
+
+
 
 // trim from end (in place)
 void wifibeat::utils::stringHelper::rtrim(std::string &s) {
     s.erase(std::find_if(s.rbegin(), s.rend(),
-            std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+            [](unsigned char ch){ return !std::isspace(ch); }).base(), s.end());
 }
+
 
 // trim from both ends (in place)
 void wifibeat::utils::stringHelper::trim(std::string &s) {

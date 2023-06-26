@@ -975,14 +975,9 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 
 					// Display suite
 					switch(item) {
-						case RSNInformation::AKMSuites::PMKSA:
+						case RSNInformation::AKMSuites::PSK:
 							jo->Add("type", 1ULL);
 							jo->Add("value", (oui * 256) + 1);
-							jo->Add("value_parsed", string("PMKSA"));
-							break;
-						case RSNInformation::AKMSuites::PSK:
-							jo->Add("type", 2ULL);
-							jo->Add("value", (oui * 256) + 2);
 							jo->Add("value_parsed", string("PSK"));
 							break;
 						default:
