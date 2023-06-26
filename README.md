@@ -67,7 +67,7 @@ Optional:
 __Note__: Make sure the system is up to date ```apt-get update && apt-get dist-upgrade``` then reboot before running the following command:
 
 ```
-apt-get install libyaml-cpp-dev libpoco-dev rapidjson-dev libtsan0 libboost-all-dev libb64-dev libwireshark-data build-essential 
+apt-get install libyaml-cpp-dev libpoco-dev rapidjson-dev libtsan0 libboost-all-dev libb64-dev libwireshark-data build-essential libnl-genl-3-dev
 ```
 
 ## Load and compile
