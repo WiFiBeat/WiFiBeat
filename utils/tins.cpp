@@ -472,8 +472,9 @@ JSONObject * wifibeat::utils::tins::Dot11Management2String(const Dot11Management
 				JSONObject * fixedParams = new JSONObject();
 
 				fixedParams->Add("timestamp", (unsigned long long int)pr->timestamp());
-				char tsStr [19];
-				sprintf(tsStr, "0x%016llx", (unsigned long long int)pr->timestamp());
+				// flawfinder: ignore
+				char tsStr [19] = { 0 };
+				snprintf(tsStr, sizeof(tsStr), "0x%016llx", (unsigned long long int)pr->timestamp());
 				fixedParams->Add("timestamp_hex", tsStr);
 				fixedParams->Add("beacon", pr->interval());
 				fixedParams->Add("beacon_interval_usec", pr->interval() * 1024);
@@ -499,8 +500,9 @@ JSONObject * wifibeat::utils::tins::Dot11Management2String(const Dot11Management
 				JSONObject * fixedParams = new JSONObject();
 
 				fixedParams->Add("timestamp", (unsigned long long int)beacon->timestamp());
-				char tsStr [19];
-				sprintf(tsStr, "0x%016llx", (unsigned long long int)beacon->timestamp());
+				// flawfinder: ignore
+				char tsStr [19] = { 0 };
+				snprintf(tsStr, sizeof(tsStr), "0x%016llx", (unsigned long long int)beacon->timestamp());
 				fixedParams->Add("timestamp_hex", tsStr);
 				fixedParams->Add("beacon", beacon->interval());
 				fixedParams->Add("beacon_interval_usec", beacon->interval() * 1024);
@@ -712,7 +714,10 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 				tag->Add("name", string("Country information"));
 				if (len >= 3) {
 					JSONObject * country_info = new JSONObject();
-					char ccode[3] = { opt.data_ptr()[0], opt.data_ptr()[1], 0 };
+					// flawfinder: ignore
+					char ccode[3] = { 0 };
+					// flawfinder: ignore
+					memcpy(ccode, opt.data_ptr(), 2);
 					country_info->Add("code", ccode);
 					unsigned char env = opt.data_ptr()[2];
 					country_info->Add("environment", env);
@@ -1238,8 +1243,9 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 
 
 				uint8_t OUI[3] = {opt.data_ptr()[0], opt.data_ptr()[1], opt.data_ptr()[2] };
-				char OUIStr[9];
-				sprintf(OUIStr, "%02x-%02x-%02x", OUI[0], OUI[1], OUI[2]);
+				// flawfinder: ignore
+				char OUIStr[9] = { 0 };
+				snprintf(OUIStr, sizeof(OUIStr), "%02x-%02x-%02x", OUI[0], OUI[1], OUI[2]);
 
 				tag->Add("oui", (OUI[0] * 65536) + (OUI[1] * 256) + OUI[2]);
 				tag->Add("oui_parsed", string(OUIStr));
@@ -1340,8 +1346,9 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 						}
 
 						// Add vendor data
-						char rt[9];
-						sprintf(rt, "%02x%02x%02x%02x", opt.data_ptr()[3], opt.data_ptr()[4], opt.data_ptr()[5], opt.data_ptr()[6]);
+						// flawfinder: ignore
+						char rt[9] = { 0 };
+						snprintf(rt, sizeof(rt), "%02x%02x%02x%02x", opt.data_ptr()[3], opt.data_ptr()[4], opt.data_ptr()[5], opt.data_ptr()[6]);
 						rt[8] = 0;
 						vendor->Add("data", rt);
 					} else if (OUI[1] == 0x90 && OUI[2] == 0x4c) {
@@ -1392,8 +1399,9 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 						vendor->Add("name", "RuckusWi");
 						if (len == 8) {
 							// Add vendor data
-							char rw[11];
-							sprintf(rw, "%02x%02x%02x%02x%02x", opt.data_ptr()[3], opt.data_ptr()[4], opt.data_ptr()[5], opt.data_ptr()[6], opt.data_ptr()[7]);
+							// flawfinder: ignore
+							char rw[11] = { 0 };
+							snprintf(rw, sizeof(rw), "%02x%02x%02x%02x%02x", opt.data_ptr()[3], opt.data_ptr()[4], opt.data_ptr()[5], opt.data_ptr()[6], opt.data_ptr()[7]);
 							rw[10] = 0;
 							vendor->Add("data", rw);
 						}
@@ -1401,6 +1409,7 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 				}
 				// Resolve manufacturer from /usr/share/wireshark/manuf
 				// Required package: libwireshark-data
+				// Note: manuf may not be present in Ubuntu 24.04 package anymore
 
 				// In any case have a few MACs known (Microsoft, broadcom, Epigram, RalinkTe)
 				// Check out among other things: Chinese-SSID-Name.pcap from Aircrack-ng

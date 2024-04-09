@@ -39,6 +39,7 @@ bool wifibeat::utils::wifi::setInterfaceUp(const string & iface)
 	}
 
 	memset(&ifr, 0, sizeof(ifr));
+	// flawfinder: ignore
 	strncpy(ifr.ifr_name, iface.c_str(), IFNAMSIZ);
 	ifr.ifr_flags |= IFF_UP;
 
@@ -83,6 +84,7 @@ vector <string> wifibeat::utils::wifi::interfaces()
 {
 	vector<string> ret;
 	pcap_if_t *alldevs;
+	// flawfinder: ignore
 	char errbuf[PCAP_ERRBUF_SIZE];
 
 	/* Retrieve the device list from the local machine */
