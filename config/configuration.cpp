@@ -24,9 +24,11 @@
 #include <cstdlib> // NULL
 #include <exception>
 #include <regex>
+#include <string> // stoi
 
 using std::stringstream;
 using std::endl;
+using std::stoi;
 
 wifibeat::configuration* wifibeat::configuration::ms_instance = NULL;
 
@@ -103,7 +105,12 @@ void wifibeat::configuration::parse_queues_persistent(const YAML::Node & node)
 				throw string("queues.persistent.enabled value is invalid. Must be true or false.");
 			}
 		} else if (key == "max_size") {
-			int max_size = atoi(param->second.as<string>().c_str());
+			int max_size = 0;
+			try {
+				max_size = stoi(param->second.as<string>());
+			} catch (const std::invalid_argument& ia) {
+				throw string("queues.persistent.max_size value is invalid. Must be a number above 0.");
+			}
 			if (max_size == 0) {
 				this->persistentQueue.enabled = false;
 			} else if (max_size < 0) {
@@ -158,7 +165,12 @@ void wifibeat::configuration::parse_output_elasticsearch(const YAML::Node & node
 				if (split.size() != 2) {
 					throw string("Invalid ElasticSearch host value: " + host);
 				}
-				int port = atoi(split[1].c_str());
+				int port = 0;
+				try {
+					port = stoi(split[1]);
+				} catch (const std::invalid_argument& ia) {
+					throw string("Invalid ElasticSearch host value, port must be a number between 1 and 65535): " + std::to_string(port));
+				}
 				if (port < 1 || port > 65535) {
 					throw string("Invalid ElasticSearch host value, port must be between 1 and 65535): " + host);
 				}
@@ -188,6 +200,9 @@ void wifibeat::configuration::parse_output_elasticsearch(const YAML::Node & node
 	}
 }
 
+#define HOP_TU_STR_LEN 2
+#define S_(x) #x
+#define STR(x) S_(x)
 void wifibeat::configuration::parse_wifibeat_interfaces_devices(const YAML::Node & node)
 {
 	LOG_DEBUG("Parsing wifibeat.interfaces.devices node");
@@ -220,10 +235,10 @@ void wifibeat::configuration::parse_wifibeat_interfaces_devices(const YAML::Node
 
 				// Parse hopping time
 				unsigned int hopTime = 0;
-				char * temp = new char[chanStr.size()]; // Should have more than enough
-				memset(temp, 0, chanStr.size());
+				char * temp = new char[HOP_TU_STR_LEN + 1];
+				memset(temp, 0, HOP_TU_STR_LEN + 1);
 				// TODO: Move away from sscanf
-				if (sscanf(chan_hop[1].c_str(), "%u%s", &hopTime, temp) != 2 || hopTime == 0) {
+				if (sscanf(chan_hop[1].c_str(), "%u%" STR(HOP_TU_STR_LEN) "s", &hopTime, temp) != 2 || hopTime == 0) {
 					delete[] temp;
 					throw string("Failed parsing hopping (or invalid hopping time) time for " + card + " on channel " + chanStr);
 				}
@@ -238,10 +253,17 @@ void wifibeat::configuration::parse_wifibeat_interfaces_devices(const YAML::Node
 				delete[] temp;
 				
 				// Parse channel
-				chan = atoi(chan_hop[0].c_str());
-
-			} else if (chan_hop.size() == 0) {
-				chan = atoi(chanStr.c_str());
+				try {
+					chan = stoi(chan_hop[0]);
+				} catch (const std::invalid_argument& ia) {
+					throw string("Failed parsing hopping (or invalid hopping time) time for " + card + " on channel " + chan_hop[0]);
+				}
+			} else if (chan_hop.size() == 0) {	
+				try {
+					chan = stoi(chanStr);
+				} catch (const std::invalid_argument& ia) {
+					throw string("Failed parsing hopping (or invalid hopping time) time for " + card + " on channel " + chanStr);
+				}
 			} else {
 				throw string("Failed parsing hopping (or invalid hopping time) time for " + card + " on channel " + chanStr);
 			}
@@ -256,6 +278,7 @@ void wifibeat::configuration::parse_wifibeat_interfaces_devices(const YAML::Node
 		this->channelHopping.insert({card, hoppingPattern});
 	}
 }
+#undef HOP_TU_STR_LEN
 
 void wifibeat::configuration::parse_decryption_keys(const YAML::Node & node)
 {
