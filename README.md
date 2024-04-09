@@ -85,6 +85,9 @@ apt-get install codelite codelite-plugins
 
 ```
 apt-get install libyaml-cpp-dev libpoco-dev rapidjson-dev libnl-3-dev libnl-genl-3-dev libtsan0 libboost-all-dev libb64-dev libwireshark-data build-essential libtins-dev`
+```
+
+#### Set-up project
 
 1. Create workspace (__File__ -> __New__ -> __New workspace__) or use existing one. Take note of the directory.
 2. Clone repositories in that newly created directory
