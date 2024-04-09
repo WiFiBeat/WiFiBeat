@@ -1,4 +1,6 @@
-# Description
+# WiFiBeat
+
+## Description
 
 Parses 802.11 frames from multiple sources (live or PCAP files) and store them, parsed, into Elasticsearch.
 
@@ -8,34 +10,7 @@ Search using Wireshark display filters.
 
 Get alerted using ElastAlert2 or Elastic Watcher.
 
-# Installation
-
-__Note__: Installation has only been tested on Ubuntu 16.04 for now.
-
-## Install Elasticsearch and Kibana
-
-Refer to Elasticsearch documentation on https://www.elastic.co/guide/en/elasticsearch/reference/current/_installation.html
-and to Kibana documentation on https://www.elastic.co/guide/en/kibana/current/setup.html
-
-Or follow the simplified installation steps below
-
-```
-sudo apt-get install openjdk-21-jre-headless apt-transport-https
-wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
-apt-get update
-apt-get install elasticsearch curl kibana
-```
-
-__Note regarding Kibana and ElasticSearch__: They are often listening on 0.0.0.0, so make sure to configure the firewall to prevent access to those ports (or edit their configs) from the outside
-
-
-
-## Load and compile
-
-### With CodeLite
-
-#### Dependencies
+## Dependencies
 
 - YAML-cpp
 - POCO (for elasticbeat-cpp)
@@ -47,19 +22,69 @@ __Note regarding Kibana and ElasticSearch__: They are often listening on 0.0.0.0
 Optional:
 - tsan (Thread sanitizer, for debugging)
 
-On debian-based distros:
+Package list (on debian-based distros):
+
+- libyaml-cpp-dev
+- libpoco-dev
+- rapidjson-dev
+- libnl-3-dev
+- libnl-genl-3-dev
+- libtsan0
+- libboost-all-dev
+- build-essential
+- libtins-dev
+
+## Compilation and installation
+
+It can be compiled with CMake (with or without docker) or with CodeLite. 
+
+### CMake (without docker)
+
+**Note**: Support is experimental and requires clang
+
+#### Required tools
+
+On debian-based distros, run:
+
+`apt-get install cmake clang build-essential --no-install-recommends`
+
+To install Conan, refer to https://docs.conan.io/2/installation.html
+
+#### Clone repositories
 
 ```
-apt-get install libyaml-cpp-dev libpoco-dev rapidjson-dev libnl-3-dev libnl-genl-3-dev libtsan0 libboost-all-dev libb64-dev libwireshark-data build-essential libtins-dev
+git clone https://github.com/WiFiBeat/WiFiBeat
+git clone https://github.com/WiFiBeat/elasticbeat-cpp
+git clone https://github.com/WiFiBeat/simplejson-cpp
 ```
 
-#### Install Codelite
+#### Compilation
+
+```
+cd WiFiBeat
+conan profile detect --force
+conan install . --output-folder=build --build=missing
+cd build/
+CMAKE_BUILD_TYPE=Release CMAKE_PREFIX_PATH="$(pwd)/build/Release/generators/" cmake ..
+make
+```
+
+### CMake (with docker)
+
+Run `sudo docker build . -t wifibeat`
+
+### CodeLite
+
+#### CodeLite installation
 
 ```
 apt-get install codelite codelite-plugins
 ```
 
-#### Load project
+#### Dependencies
+
+```
+apt-get install libyaml-cpp-dev libpoco-dev rapidjson-dev libnl-3-dev libnl-genl-3-dev libtsan0 libboost-all-dev libb64-dev libwireshark-data build-essential libtins-dev`
 
 1. Create workspace (__File__ -> __New__ -> __New workspace__) or use existing one. Take note of the directory.
 2. Clone repositories in that newly created directory
@@ -72,42 +97,16 @@ apt-get install codelite codelite-plugins
    1. Right click on the workspace in the Workspace View on the left
    2. Click 'Add an existing project'
    3. Browse for the wifibeat.project file and click Open
-   4. Repeat steps II and III for elasticbeat-cpp.project
-   5. Repeat steps II and III for simplejson-cpp.project
+   4. Repeat steps 2 and 3 for elasticbeat-cpp.project
+   5. Repeat steps 2 and 3 for simplejson-cpp.project
 
-#### Compile
+#### Compilation
 
 Select __wifibeat__ project by double clicking on it. It should be bold now. Now, right click on project and click on __Build__. Alternatively, hit the __Build__ menu on top then click __Build Project__.
 
-### With CMake
+## ElasticSearch and Kibana set-up
 
-**Note**: Support is experimental and requires clang
-
-```
-apt-get install cmake clang build-essential -y
-```
-
-To install Conan, refer to https://docs.conan.io/2/installation.html
-
-#### Clone repositories
-
-```
-git clone https://github.com/WiFiBeat/WiFiBeat
-git clone https://github.com/WiFiBeat/elasticbeat-cpp
-git clone https://github.com/WiFiBeat/simplejson-cpp
-```
-
-#### Compile
-
-```
-cd WiFiBeat
-conan install . --output-folder=build --build=missing
-cd build/
-cmake ..
-make
-```
-
-## Configure
+## Configuration
 
 Copy configuration file (__wifibeat.yml__) in __/etc__ and update it.
 It is fairly well documented.
@@ -119,7 +118,7 @@ It is fairly well documented.
 - Logstash output is not implemented yet.
 - Persistence is not implemented yet.
 
-# Usage
+## Usage
 
 1. Start Elasticsearch: ```service elasticsearch start```
 2. Start Kibana: ```service kibana start```
@@ -152,9 +151,9 @@ Options:
 Everything is logged in syslog, ```grep wifibeat /var/log/syslog``` or ```tail -f /var/log/syslog | grep wifibeat``` will show them.
 __Note__: If the no-daemon option is used, errors are displayed in the console too.
 
-# Future
+## Future
 
-## WiFi-related
+### WiFi-related
 
 - Payload parsing (if unencrypted/decrypted)
 - Different channel width (require support from wireless card)
@@ -171,12 +170,12 @@ __Note__: If the no-daemon option is used, errors are displayed in the console t
 - MAC address and OUI manufacturer resolution
 - GPS
 
-## ElasticSearch
+### ElasticSearch
 - Templates/Mapping
 - More configuration options
 - SSL Support
 
-## Other
+### Other
 - Unit testing
 - More outputs (Logstash, Kafka, Redis, file, console)
 - Packages (Ubuntu and others)
@@ -189,7 +188,7 @@ __Note__: If the no-daemon option is used, errors are displayed in the console t
 - Reduce dependencies
 - Makefile
 
-# Known bugs
+## Known bugs
 
 - Packet captures are not fully ingested in Elasticsearch (not all packets are in Elasticsearch).
-- Arrays are not supported in Elasticsearch. Reasons are explained in various bug reports: elastic/kibana#3333, elastic/kibana#998 and elastic/kibana#1587. If querying arrays is needed, you may look into https://github.com/istresearch/kibana-object-format (untested yet).
+- Arrays are not supported in Elasticsearch. Reasons are explained in various bug reports: elastic/kibana#3333, elastic/kibana#998 and elastic/kibana#1587. If querying arrays is needed, you may look into https://github.com/istresearch/kibana-object-format (untested).
