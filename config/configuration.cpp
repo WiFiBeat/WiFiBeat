@@ -169,7 +169,7 @@ void wifibeat::configuration::parse_output_elasticsearch(const YAML::Node & node
 				try {
 					port = stoi(split[1]);
 				} catch (const std::invalid_argument& ia) {
-					throw string("Invalid ElasticSearch host value, port must be a number between 1 and 65535): " + std::to_string(port));
+					throw string("Invalid ElasticSearch host value, port must be a number between 1 and 65535): " + host);
 				}
 				if (port < 1 || port > 65535) {
 					throw string("Invalid ElasticSearch host value, port must be between 1 and 65535): " + host);
