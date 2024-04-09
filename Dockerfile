@@ -11,7 +11,7 @@ RUN apt-get update && apt-get dist-upgrade -y && \
 COPY . /wifibeat
 WORKDIR /wifibeat
 RUN conan profile detect --force && \
-    conan install . --output-folder=build --build=missing && ls -al /root/.conan2 && du -h /root/.conan2 && ls -al /root/.cmake && du -h /root/.cmake
+    conan install . --output-folder=build --build=missing
 WORKDIR /wifibeat/build
 RUN CMAKE_BUILD_TYPE=Release CMAKE_PREFIX_PATH="$(pwd)/build/Release/generators/" cmake .. && \
     make VERBOSE=1 && \
