@@ -87,6 +87,8 @@ Select __wifibeat__ project by double clicking on it. It should be bold now. Now
 apt-get install cmake clang build-essential -y
 ```
 
+To install Conan, refer to https://docs.conan.io/2/installation.html
+
 #### Clone repositories
 
 ```
