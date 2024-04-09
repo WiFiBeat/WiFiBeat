@@ -1,6 +1,7 @@
+
 /*
  *    WiFiBeat - Parse 802.11 frames and store them in ElasticSearch
- *    Copyright (C) 2017 Thomas d'Otreppe de Bouvette 
+ *    Copyright (C) 2024 Thomas d'Otreppe de Bouvette 
  *                       <tdotreppe@aircrack-ng.org>
  *
  *    This program is free software: you can redistribute it and/or modify
@@ -19,8 +20,8 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define VERSION_STRING "0.1"
-#define VERSION_MAJOR 0
-#define VERSION_MINOR 1
+#define VERSION_STRING "@WiFiBeat_VERSION_MAJOR@.@WiFiBeat_VERSION_MINOR@"
+#define VERSION_MAJOR @WiFiBeat_VERSION_MAJOR@
+#define VERSION_MINOR @WiFiBeat_VERSION_MINOR@
 
 #endif // VERSION_H

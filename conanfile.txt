@@ -1,0 +1,15 @@
+[requires]
+libtins/4.5
+yaml-cpp/0.8.0
+boost/1.83.0
+libpcap/1.10.4
+libnl/3.9.0
+poco/1.11.3
+rapidjson/cci.20230929
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout

@@ -36,3 +36,8 @@ Debug
 Release
 wifibeat.mk
 wifibeat.txt
+
+# Cmake stuff
+build/
+version.h
+CMakeUserPresets.json
