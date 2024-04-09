@@ -17,6 +17,8 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "threadManager.h"
+#include "ThreadWithQueue.h"
+#include "PacketTimestamp.h"
 #include "config/configuration.h"
 #include <sstream>
 #include "utils/Locker.h"
@@ -35,7 +37,7 @@ wifibeat::threadManager::threadManager(const string & pcapPrefix) : _decryption(
 	wifibeat::utils::Locker l(&this->_mutex); // Avoid tsan complaining of race condition
 
 	// Capture files
-	for (const string file: configuration::Instance()->filesToRead) {
+	for (const string & file: configuration::Instance()->filesToRead) {
 		LOG_DEBUG("Adding new file to read: " + file);
 		threads::filereading * pcap = new threads::filereading(file, "");
 		this->_filereadings.push_back(pcap);

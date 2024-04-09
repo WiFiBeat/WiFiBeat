@@ -612,7 +612,7 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 	vector<JSONObject *> mcssetVector;
 
 	vector<JSONObject *> optionsVector;
-	for (const Tins::Dot11::option opt: mgtOptions) {
+	for (const Tins::Dot11::option & opt: mgtOptions) {
 		JSONObject * tag = new JSONObject();
 		unsigned int optNr = opt.option();
 		tag->Add("number", optNr);
@@ -762,6 +762,8 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 			{
 				tag->Add("name", string("ERP Information (42)"));
 				// Allow jumping to #47, parsing is identical, so no break;
+				[[fallthrough]];
+				//fallthrough
 			}
 			case IE_ERP_INFO47:
 			{
@@ -979,11 +981,12 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 					jo->Add("oui", oui); // 00-0f-ac, always
 
 					// Display suite
+					// TODO: Add more
 					switch(item) {
-						case RSNInformation::AKMSuites::PMKSA:
+						case RSNInformation::AKMSuites::EAP:
 							jo->Add("type", 1ULL);
 							jo->Add("value", (oui * 256) + 1);
-							jo->Add("value_parsed", string("PMKSA"));
+							jo->Add("value_parsed", string("EAP"));
 							break;
 						case RSNInformation::AKMSuites::PSK:
 							jo->Add("type", 2ULL);

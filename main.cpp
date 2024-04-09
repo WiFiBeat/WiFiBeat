@@ -18,11 +18,13 @@
  */
 #include <stdio.h>
 #include <string>
+#include <cstdint>
 #include <tins/tins.h>
 #include <elasticbeat-cpp/elastic.h>
 #include <boost/program_options.hpp>
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
+#include <iostream>
 #include "config/configuration.h"
 #include "threadManager.h"
 #include "main.h"
