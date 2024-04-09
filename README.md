@@ -57,6 +57,7 @@ __Note__: Radiotap parsing may fail on 3.5. Use their git repository instead.
 - Boost
 - libnl v3 (and libnl-genl)
 - ~~libb64~~
+- Tins
 
 Optional:
 - tsan (Thread sanitizer, for debugging)
@@ -67,18 +68,18 @@ Optional:
 __Note__: Make sure the system is up to date ```apt-get update && apt-get dist-upgrade``` then reboot before running the following command:
 
 ```
-apt-get install libyaml-cpp-dev libpoco-dev rapidjson-dev libtsan0 libboost-all-dev libb64-dev libwireshark-data build-essential 
+apt-get install libyaml-cpp-dev libpoco-dev rapidjson-dev libnl-3-dev libnl-genl-3-dev libtsan0 libboost-all-dev libb64-dev libwireshark-data build-essential libtins-dev
 ```
 
 ## Load and compile
 
-### Install Codelite
+### With CodeLite
+
+#### Install Codelite
 
 ```
 apt-get install codelite codelite-plugins
 ```
-
-### Load projects into CodeLite
 
 #### Load project
 
@@ -96,9 +97,36 @@ apt-get install codelite codelite-plugins
    4. Repeat steps II and III for elasticbeat-cpp.project
    5. Repeat steps II and III for simplejson-cpp.project
 
-### Compile
+#### Compile
 
 Select __wifibeat__ project by double clicking on it. It should be bold now. Now, right click on project and click on __Build__. Alternatively, hit the __Build__ menu on top then click __Build Project__.
+
+### With CMake
+
+**Note**: Support is experimental and requires clang
+
+```
+apt install cmake clang
+```
+
+#### Clone repositories
+
+```
+git clone https://github.com/WiFiBeat/WiFiBeat
+git clone https://github.com/WiFiBeat/elasticbeat-cpp
+git clone https://github.com/WiFiBeat/simplejson-cpp
+```
+
+#### Compile
+
+```
+cd WiFiBeat
+export CXX=clang++
+conan install . --output-folder=build --build=missing
+cd build/
+cmake ..
+make
+```
 
 ## Configure
 
