@@ -6,12 +6,11 @@ Visualize them with Kibana.
 
 Search using Wireshark display filters.
 
-Get alerted using ElastAlert or Elastic Watcher.
+Get alerted using ElastAlert2 or Elastic Watcher.
 
-# Compilation
+# Installation
 
 __Note__: Installation has only been tested on Ubuntu 16.04 for now.
-__Note__: Most commands need to be run as root.
 
 ## Install Elasticsearch and Kibana
 
@@ -21,59 +20,38 @@ and to Kibana documentation on https://www.elastic.co/guide/en/kibana/current/se
 Or follow the simplified installation steps below
 
 ```
-apt-get install openjdk-8-jre
-wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
-echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" >> /etc/apt/sources.list.d/elastic.list
+sudo apt-get install openjdk-21-jre-headless apt-transport-https
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
 apt-get update
 apt-get install elasticsearch curl kibana
 ```
 
 __Note regarding Kibana and ElasticSearch__: They are often listening on 0.0.0.0, so make sure to configure the firewall to prevent access to those ports (or edit their configs) from the outside
 
-## Install dependencies
 
-### libtins
 
-```
-wget https://github.com/mfontanini/libtins/archive/v3.5.tar.gz
-tar -zxf v3.5.tar.gz
-cd libtins-3.5
-apt-get install libpcap-dev libssl-dev build-essential libboost-all-dev
-mkdir build
-cd build
-cmake ../ -DLIBTINS_ENABLE_CXX11=1
-make
-make install
-ldconfig
-```
+## Load and compile
 
-__Note__: Radiotap parsing may fail on 3.5. Use their git repository instead.
+### With CodeLite
 
-### Other dependencies
+#### Dependencies
 
 - YAML-cpp
 - POCO (for elasticbeat-cpp)
 - RapidJSON (for elasticbeat-cpp)
 - Boost
 - libnl v3 (and libnl-genl)
-- ~~libb64~~
-- Tins
+- libtins
 
 Optional:
 - tsan (Thread sanitizer, for debugging)
-- wireshark-data (__manuf__ file): either generate it using ```make-manuf``` and put it in __/usr/share/wireshark/manuf__ or use __libwireshark-data__ package
 
-#### Debian-based OS
-
-__Note__: Make sure the system is up to date ```apt-get update && apt-get dist-upgrade``` then reboot before running the following command:
+On debian-based distros:
 
 ```
 apt-get install libyaml-cpp-dev libpoco-dev rapidjson-dev libnl-3-dev libnl-genl-3-dev libtsan0 libboost-all-dev libb64-dev libwireshark-data build-essential libtins-dev
 ```
-
-## Load and compile
-
-### With CodeLite
 
 #### Install Codelite
 
@@ -106,7 +84,7 @@ Select __wifibeat__ project by double clicking on it. It should be bold now. Now
 **Note**: Support is experimental and requires clang
 
 ```
-apt install cmake clang
+apt-get install cmake clang build-essential -y
 ```
 
 #### Clone repositories
@@ -121,7 +99,6 @@ git clone https://github.com/WiFiBeat/simplejson-cpp
 
 ```
 cd WiFiBeat
-export CXX=clang++
 conan install . --output-folder=build --build=missing
 cd build/
 cmake ..
