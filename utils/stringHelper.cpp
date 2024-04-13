@@ -114,7 +114,7 @@ inline void wifibeat::utils::stringHelper::trim(std::string &s) {
 string wifibeat::utils::stringHelper::timespec2RFC3339string(struct timespec & ts)
 {
 	#define T2S_BUFFER_LEN 128
-	char * buf = new char[T2S_BUFFER_LEN]; // Should be enough
+	char * buf = new char[T2S_BUFFER_LEN]{0}; // Should be enough
 	struct tm gm = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	stringstream ss;
 
