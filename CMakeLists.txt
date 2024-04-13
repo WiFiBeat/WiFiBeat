@@ -35,6 +35,11 @@ add_compile_options(-Wall -Wextra -O3 -DNDEBUG)
 
 add_executable(wifibeat ${source_files})
 
+# Link libraries statically
+set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+set(BUILD_SHARED_LIBS OFF)
+set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++ -static")
+
 find_package(libtins REQUIRED)
 target_link_libraries(wifibeat libtins::libtins)
 
@@ -48,11 +53,10 @@ find_package(libpcap REQUIRED)
 target_link_libraries(wifibeat libpcap::libpcap)
 
 find_package(Boost REQUIRED)
-target_link_libraries(wifibeat -lboost_system)
-target_link_libraries(wifibeat -lboost_program_options)
+target_link_libraries(wifibeat -static -lboost_system)
+target_link_libraries(wifibeat -static -lboost_program_options)
 
-
-target_link_libraries(wifibeat -lpthread)
+target_link_libraries(wifibeat -static -lpthread)
 
 find_package(libnl REQUIRED)
 target_link_libraries(wifibeat libnl::libnl)
