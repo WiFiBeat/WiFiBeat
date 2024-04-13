@@ -33,7 +33,7 @@ char * wifibeat::utils::stringHelper::hex2string(const uint8_t * data, unsigned 
 	char * ret = NULL;
 	if (useSeparator) {
 		// Separator
-		ret = (char *) calloc(1, howMany * 3);
+		ret = static_cast<char*>(calloc(1, howMany * 3));
 		for (unsigned int i = 0; i < howMany; ++i) {
 			snprintf(ret + (i *3), 2, "%02x", data[i + offset]);
 			ret[(i * 3) + 2] = separator;
@@ -41,7 +41,7 @@ char * wifibeat::utils::stringHelper::hex2string(const uint8_t * data, unsigned 
 		ret[(howMany * 3) - 1] = 0;
 	} else {
 		// No separator
-		ret = (char *) calloc(1, (howMany * 2) + 1);
+		ret = static_cast<char*>(calloc(1, (howMany * 2) + 1));
 		for (unsigned int i = 0; i < howMany; ++i) {
 			snprintf(ret + (i * 2), 2, "%02x", data[i + offset]);
 		}

@@ -29,7 +29,7 @@ wifibeat::utils::beat* wifibeat::utils::beat::ms_instance = NULL;
 wifibeat::utils::beat::beat() : _hostname("")
 {
 	// Obtain hostname
-	char * hostname = (char *)calloc(1, HOST_NAME_MAX + 1);
+	char * hostname = static_cast<char *>(calloc(1, HOST_NAME_MAX + 1));
 	if (!hostname) {
 		LOG_ERROR("Failed allocating memory for hostname");
 		throw string("Failed allocating memory for hostname");
