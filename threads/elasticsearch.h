@@ -43,7 +43,7 @@ namespace wifibeat
 				bool _mutexInit;
 
 			public:
-				elasticsearch(const ElasticSearchConnection & connection);
+				explicit elasticsearch(const ElasticSearchConnection & connection);
 				~elasticsearch();
 				virtual string toString();
 				virtual void recurring();

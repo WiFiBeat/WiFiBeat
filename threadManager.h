@@ -50,7 +50,7 @@ namespace wifibeat
 			void stopWait(ThreadWithQueue <PacketTimestamp> * thread, bool waitForQueueToEmpty = false);
 
 		public:
-			threadManager(const string & pcapPrefix);
+			explicit threadManager(const string & pcapPrefix);
 			~threadManager();
 			bool start();
 			bool stop();

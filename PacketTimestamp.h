@@ -40,7 +40,7 @@ namespace wifibeat {
 		public:
 			//PacketTimestamp(const PtrPacket & packet);
 			PacketTimestamp(const PacketTimestamp & pts);
-			PacketTimestamp(PDU * pdu);
+			explicit PacketTimestamp(PDU * pdu);
 			~PacketTimestamp();
 
 			// Time related

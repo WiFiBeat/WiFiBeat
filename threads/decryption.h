@@ -56,7 +56,7 @@ namespace wifibeat
 				Tins::Crypto::WPA2Decrypter _decrypter;
 
 			public:
-				decryption(const vector<decryptionKey> & decryptionKeys);
+				explicit decryption(const vector<decryptionKey> & decryptionKeys);
 				~decryption();
 				virtual string toString();
 				virtual void recurring();
