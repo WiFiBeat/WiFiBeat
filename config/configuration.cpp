@@ -459,7 +459,7 @@ string wifibeat::configuration::toString()
 	}
 
 	ss << "Channel hopping: " << this->channelHopping.size() << endl;
-	for (auto & kv: this->channelHopping) {
+	for (const auto & kv: this->channelHopping) {
 		string key = kv.first;
 		bool first = true;
 		ss << " - " << key << ": [";
@@ -495,7 +495,7 @@ string wifibeat::configuration::toString()
 	}
 
 	ss << "Interface filters: " << this->interfaceFilters.size() << endl;
-	for (auto & kv: this->interfaceFilters) {
+	for (const auto & kv: this->interfaceFilters) {
 		ss << "- " << kv.first << ": " << kv.second << endl;
 	}
 

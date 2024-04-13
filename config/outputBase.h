@@ -28,9 +28,9 @@ using std::vector;
 struct IPPort {
 	string host;
 	unsigned short int port;
-	IPPort() : host(""), port(0) { }
-	IPPort(string Host) : host(Host), port(0) { }
-	IPPort(string Host, unsigned short int Port) : host(Host), port(Port) { }
+	explicit IPPort() : host(""), port(0) { }
+	explicit IPPort(const string & Host) : host(Host), port(0) { }
+	explicit IPPort(const string & Host, const unsigned short int Port) : host(Host), port(Port) { }
 };
 
 struct outputSSLSettings {
