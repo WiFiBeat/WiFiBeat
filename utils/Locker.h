@@ -29,7 +29,7 @@ namespace wifibeat
 	{
 		class Locker {
 			public:
-				Locker(pthread_mutex_t *in) {
+				explicit Locker(pthread_mutex_t *in) {
 					if (in == NULL) {
 						lock = NULL;
 						throw(std::runtime_error("mutex is NULL"));
