@@ -378,7 +378,7 @@ void wifibeat::configuration::parse_wifibeat_output_pcap(const YAML::Node & node
 bool wifibeat::configuration::parse(const YAML::Node & config)
 {
 	string value;
-	vector<string> values;
+	//vector<string> values;
 
 	for (YAML::const_iterator it = config.begin(); it != config.end(); ++it) {
 		if (it->second.IsNull()) {
