@@ -606,6 +606,10 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 	if (wlan_mgt == NULL) {
 		return false;
 	}
+	if (frame == NULL) {
+		return false;
+	}
+
 	JSONObject * ht = NULL; // Used in more than one IE
 	// So, if NULL, not used, don't add
 	// There can be 2 (or more) MCS set
@@ -1241,7 +1245,7 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 				oui->Add("type", vendor_type);
 
 
-				uint8_t OUI[3] = {opt.data_ptr()[0], opt.data_ptr()[1], opt.data_ptr()[2] };
+				const uint8_t OUI[3] = {opt.data_ptr()[0], opt.data_ptr()[1], opt.data_ptr()[2] };
 				// flawfinder: ignore
 				char OUIStr[9] = { 0 };
 				snprintf(OUIStr, sizeof(OUIStr), "%02x-%02x-%02x", OUI[0], OUI[1], OUI[2]);
