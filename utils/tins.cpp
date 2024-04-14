@@ -689,9 +689,7 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 
 					// Partial virtual bitmap item
 					vector<unsigned int>  pvb;
-					for (uint8_t item: frame->tim().partial_virtual_bitmap) {
-						pvb.push_back(item);
-					}
+					std::copy(frame->tim().partial_virtual_bitmap.begin(), frame->tim().partial_virtual_bitmap.end(), std::back_inserter(pvb));
 					tim->Add("partial_virtual_bitmap", pvb);
 
 					// bmapctl item
@@ -964,9 +962,7 @@ bool wifibeat::utils::tins::ParseDot11ManagementOptions(const Tins::Dot11::optio
 				// Pairwise cipher suite
 				JSONObject * pcs = new JSONObject();
 				vector<JSONObject *> pcsVector;
-				for (RSNInformation::CypherSuites cs: rsninformation.pairwise_cyphers()) {
-					pcsVector.push_back(ParseRSNInformationCipherSuite(cs));
-				}
+				std::transform(rsninformation.pairwise_cyphers().begin(), rsninformation.pairwise_cyphers().end(), std::back_inserter(pcsVector), ParseRSNInformationCipherSuite);
 				pcs->Add("count", (unsigned int)pcsVector.size());
 				pcs->Add("list", pcsVector);
 
