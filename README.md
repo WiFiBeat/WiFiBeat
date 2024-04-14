@@ -107,7 +107,26 @@ apt-get install libyaml-cpp-dev libpoco-dev rapidjson-dev libnl-3-dev libnl-genl
 
 Select __wifibeat__ project by double clicking on it. It should be bold now. Now, right click on project and click on __Build__. Alternatively, hit the __Build__ menu on top then click __Build Project__.
 
-## ElasticSearch and Kibana set-up
+## ElasticSearch and Kibana installation
+
+### Installation
+
+Refer to Elasticsearch documentation on https://www.elastic.co/guide/en/elasticsearch/reference/8.13/install-elasticsearch.html
+and to Kibana documentation on https://www.elastic.co/guide/en/kibana/8.13/setup.html
+
+Or follow the simplified installation steps below
+
+```
+sudo apt-get install openjdk-21-jre-headless apt-transport-https
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+apt-get update
+apt-get install elasticsearch curl kibana
+```
+
+__Notes__:
+- ElasticSearch listens on 0.0.0.0 by default. It is wise to configure the firewall to prevent access to those ports (or edit their configs) from the outside.
+- Kibana listens on 127.0.0.1 by default.
 
 ## Configuration
 
